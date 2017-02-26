@@ -37,20 +37,9 @@
 
 /* GrLib Includes */
 #include "grlib.h"
-#include "button.h"
-#include "imageButton.h"
-#include "radioButton.h"
-#include "checkbox.h"
+
 #include "LcdDriver/kitronix320x240x16_ssd2119_spi.h"
 #include "images/images.h"
-#include "touch_P401R.h"
-
-//Touch screen context
-touch_context g_sTouchContext;
-Graphics_ImageButton primitiveButton;
-Graphics_ImageButton imageButton;
-Graphics_Button yesButton;
-Graphics_Button noButton;
 
 // Graphic library context
 Graphics_Context g_sContext;
@@ -61,7 +50,7 @@ bool g_ranDemo = false;
 void Delay(uint16_t msec);
 void boardInit(void);
 void clockInit(void);
-void initializeDemoButtons(void);
+
 void drawMainMenu(void);
 void runPrimitivesDemo(void);
 void runImagesDemo(void);
@@ -75,7 +64,7 @@ void main(void)
     /* Initialize the demo. */
     boardInit();
     clockInit();
-    initializeDemoButtons();
+
 
     /* Globally enable interrupts. */
     __enable_interrupt();
@@ -87,97 +76,17 @@ void main(void)
     Graphics_setFont(&g_sContext, &g_sFontCmss20b);
     Graphics_clearDisplay(&g_sContext);
 
-    touch_initInterface();
-
     drawMainMenu();
 
     // Loop to detect touch
     while(1)
     {
-        touch_updateCurrentTouch(&g_sTouchContext);
 
-        if(g_sTouchContext.touch)
-        {
-            if(Graphics_isImageButtonSelected(&primitiveButton,
-                                              g_sTouchContext.x,
-                                              g_sTouchContext.y))
-            {
-                Graphics_drawSelectedImageButton(&g_sContext,&primitiveButton);
-                runPrimitivesDemo();
-            }
-            else if(Graphics_isImageButtonSelected(&imageButton,
-                                                   g_sTouchContext.x,
-                                                   g_sTouchContext.y))
-            {
-                Graphics_drawSelectedImageButton(&g_sContext,&imageButton);
-                runImagesDemo();
-            }
 
-            if(g_ranDemo == true)
-            {
-                g_ranDemo = false;
-                drawMainMenu();
-            }
-        }
+
     }
 }
 
-void initializeDemoButtons(void)
-{
-    // Initiliaze primitives Demo Button
-    primitiveButton.xPosition = 20;
-    primitiveButton.yPosition = 50;
-    primitiveButton.borderWidth = 5;
-    primitiveButton.selected = false;
-    primitiveButton.imageWidth = Primitives_Button4BPP_UNCOMP.xSize;
-    primitiveButton.imageHeight = Primitives_Button4BPP_UNCOMP.ySize;
-    primitiveButton.borderColor = GRAPHICS_COLOR_WHITE;
-    primitiveButton.selectedColor = GRAPHICS_COLOR_RED;
-    primitiveButton.image = &Primitives_Button4BPP_UNCOMP;
-
-    // Initiliaze images Demo Button
-    imageButton.xPosition = 180;
-    imageButton.yPosition = 50;
-    imageButton.borderWidth = 5;
-    imageButton.selected = false;
-    imageButton.imageWidth = Primitives_Button4BPP_UNCOMP.xSize;
-    imageButton.imageHeight = Primitives_Button4BPP_UNCOMP.ySize;
-    imageButton.borderColor = GRAPHICS_COLOR_WHITE;
-    imageButton.selectedColor = GRAPHICS_COLOR_RED;
-    imageButton.image = &Images_Button4BPP_UNCOMP;
-
-    yesButton.xMin = 80;
-    yesButton.xMax = 150;
-    yesButton.yMin = 80;
-    yesButton.yMax = 120;
-    yesButton.borderWidth = 1;
-    yesButton.selected = false;
-    yesButton.fillColor = GRAPHICS_COLOR_RED;
-    yesButton.borderColor = GRAPHICS_COLOR_RED;
-    yesButton.selectedColor = GRAPHICS_COLOR_BLACK;
-    yesButton.textColor = GRAPHICS_COLOR_BLACK;
-    yesButton.selectedTextColor = GRAPHICS_COLOR_RED;
-    yesButton.textXPos = 100;
-    yesButton.textYPos = 90;
-    yesButton.text = "YES";
-    yesButton.font = &g_sFontCm18;
-
-    noButton.xMin = 180;
-    noButton.xMax = 250;
-    noButton.yMin = 80;
-    noButton.yMax = 120;
-    noButton.borderWidth = 1;
-    noButton.selected = false;
-    noButton.fillColor = GRAPHICS_COLOR_RED;
-    noButton.borderColor = GRAPHICS_COLOR_RED;
-    noButton.selectedColor = GRAPHICS_COLOR_BLACK;
-    noButton.textColor = GRAPHICS_COLOR_BLACK;
-    noButton.selectedTextColor = GRAPHICS_COLOR_RED;
-    noButton.textXPos = 200;
-    noButton.textYPos = 90;
-    noButton.text = "NO";
-    noButton.font = &g_sFontCm18;
-}
 
 void drawMainMenu(void)
 {
@@ -197,11 +106,6 @@ void drawMainMenu(void)
                        Graphics_getDisplayHeight(
                            &g_sContext) - TI_platform_bar_red4BPP_UNCOMP.ySize);
 
-    // Draw Primitives image button
-    Graphics_drawImageButton(&g_sContext, &primitiveButton);
-
-    // Draw Images image button
-    Graphics_drawImageButton(&g_sContext, &imageButton);
 }
 
 void runPrimitivesDemo(void)
@@ -376,34 +280,9 @@ void drawRestarDemo(void)
                                 65,
                                 TRANSPARENT_TEXT);
 
-    // Draw Primitives image button
-    Graphics_drawButton(&g_sContext, &yesButton);
 
-    // Draw Images image button
-    Graphics_drawButton(&g_sContext, &noButton);
 
-    do
-    {
-        touch_updateCurrentTouch(&g_sTouchContext);
-        if(Graphics_isButtonSelected(&noButton, g_sTouchContext.x,
-                                     g_sTouchContext.y))
-        {
-            Graphics_drawSelectedButton(&g_sContext, &noButton);
-            g_ranDemo = true;
-        }
-        else
-        {
-            if(g_ranDemo)
-            {
-                Graphics_drawReleasedButton(&g_sContext, &noButton);
-                g_ranDemo = false;
-            }
-        }
-    }
-    while(!Graphics_isButtonSelected(&yesButton, g_sTouchContext.x,
-                                     g_sTouchContext.y));
 
-    Graphics_drawSelectedButton(&g_sContext, &yesButton);
 
     g_ranDemo = true;
     Delay(1000);
