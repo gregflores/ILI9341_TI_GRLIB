@@ -58,11 +58,11 @@
 //
 //*****************************************************************************
 
+#include <LcdDriver/adafruit320x240_ILI9341_spi.h>
+#include <LcdDriver/HAL_MSP432P401R_adafruit320x240_ILI9341_SPI.h>
 #include <msp432.h>
 #include <stdint.h>
 #include "grlib.h"
-#include "HAL_MSP_EXP432P401R_KITRONIX320X240_SSD2119_SPI.h"
-#include "kitronix320x240x16_ssd2119_spi.h"
 
 //*****************************************************************************
 //

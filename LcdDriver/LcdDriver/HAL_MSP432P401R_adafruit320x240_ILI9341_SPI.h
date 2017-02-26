@@ -51,8 +51,8 @@
 //                ------------------
 //****************************************************************************
 
-#ifndef __HAL_MSP_EXP430F5529_DOGS102X64_UC1701__
-#define __HAL_MSP_EXP430F5529_DOGS102X64_UC1701__
+#ifndef __HAL_MSP432P401R_320x240_ILI9341__
+#define __HAL_MSP432P401R_320x240_ILI9341__
 
 //*****************************************************************************
 //
@@ -115,4 +115,4 @@ extern void HAL_LCD_setTimerDutyCycle(uint16_t dutyCycle);
 extern void HAL_LCD_startTimerCounter(void);
 extern void HAL_LCD_stopTimerCounter(void);
 
-#endif // __HAL_MSP_EXP430F5529_DOGS102X64_UC1701__
+#endif // __HAL_MSP432P401R_320x240_ILI9341__

@@ -30,6 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 /* DriverLib Includes */
+#include <LcdDriver/adafruit320x240_ILI9341_spi.h>
 #include "driverlib.h"
 
 /* Standard Includes */
@@ -38,7 +39,6 @@
 /* GrLib Includes */
 #include "grlib.h"
 
-#include "LcdDriver/kitronix320x240x16_ssd2119_spi.h"
 #include "images/images.h"
 
 // Graphic library context
@@ -187,6 +187,7 @@ void runPrimitivesDemo(void)
     Graphics_drawStringCentered(&g_sContext, "Rainbow of Colored Lines",
                                 AUTO_STRING_LENGTH, 159, 15, TRANSPARENT_TEXT);
     // Draw a quarter rectangle sweep of lines from red to purple.
+    //Why please commit yhou bastard
     for(ulIdx = 128; ulIdx >= 1; ulIdx--)
     {
         // Red Color
