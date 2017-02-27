@@ -1,38 +1,6 @@
-/* --COPYRIGHT--,BSD
- * Copyright (c) 2016, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * --/COPYRIGHT--*/
-// TODO update this diagram
 //*****************************************************************************
 //
-// HAL_MSP-EXP430FR5969_Sharp96x96.c
+// HAL_MSP432P401R_adafruit320x240_ILI9341_SPI.c
 //
 //*****************************************************************************
 //
@@ -63,35 +31,30 @@ void HAL_LCD_initLCD(void)
     //
     // Configure the pins that connect to the LCD as GPIO outputs.
     //
-    GPIO_setAsOutputPin(LCD_RESET_PORT,
-                        LCD_RESET_PIN);
+    GPIO_setAsOutputPin(LCD_DC_PORT,
+                        LCD_DC_PIN);
 
-    GPIO_setOutputLowOnPin(LCD_RESET_PORT,
-                           LCD_RESET_PIN);
+    GPIO_setOutputLowOnPin(LCD_DC_PORT,
+                           LCD_DC_PIN);
 
-    GPIO_setAsOutputPin(LCD_SDC_PORT,
-                        LCD_SDC_PIN);
+    GPIO_setAsOutputPin(LCD_CS_PORT,
+                        LCD_CS_PIN);
 
-    GPIO_setOutputLowOnPin(LCD_SDC_PORT,
-                           LCD_SDC_PIN);
-
-    GPIO_setAsOutputPin(LCD_SCS_PORT,
-                        LCD_SCS_PIN);
-
-    GPIO_setOutputLowOnPin(LCD_SCS_PORT,
-                           LCD_SCS_PIN);
+    GPIO_setOutputLowOnPin(LCD_CS_PORT,
+                           LCD_CS_PIN);
 
     //
     // Configure SPI peripheral.
     //
-    // Configure LCD_SIMO_PIN
-    GPIO_setAsPeripheralModuleFunctionOutputPin(LCD_SDI_PORT,
-                                                LCD_SDI_PIN,
-                                                LCD_SDI_PIN_FUNCTION);
+    // Configure LCD_MOSI_PIN
+    GPIO_setAsPeripheralModuleFunctionOutputPin(LCD_MOSI_PORT,
+                                                LCD_MOSI_PIN,
+                                                LCD_MOSI_PIN_FUNCTION);
 
     // Configure LCD_CLK_PIN  option select CLK
-    GPIO_setAsPeripheralModuleFunctionOutputPin(LCD_SCL_PORT, LCD_SCL_PIN,
-                                                LCD_SCL_PIN_FUNCTION);
+    GPIO_setAsPeripheralModuleFunctionOutputPin(LCD_CLK_PORT, 
+                                                LCD_CLK_PIN,
+                                                LCD_CLK_PIN_FUNCTION);
 
     eUSCI_SPI_MasterConfig spiMasterConfig =
     {
@@ -126,53 +89,33 @@ void HAL_LCD_initLCD(void)
 
     EUSCI_B_SPI_enable(LCD_EUSCI_BASE);*/
 
-    //
-    // Set the LCD Backlight high to enable
-    //
-    GPIO_setAsOutputPin(LCD_PWM_PORT,
-                        LCD_PWM_PIN);
-
-    GPIO_setOutputHighOnPin(LCD_PWM_PORT,
-                            LCD_PWM_PIN);
 
     //
     // Set the LCD control pins to their default values.
     //
 
-    GPIO_setOutputHighOnPin(LCD_SDC_PORT,
-                            LCD_SDC_PIN);
+    GPIO_setOutputHighOnPin(LCD_DC_PORT,
+                            LCD_DC_PIN);
 
-    GPIO_setOutputLowOnPin(LCD_SCS_PORT,
-                           LCD_SCS_PIN);
+    GPIO_setOutputLowOnPin(LCD_CS_PORT,
+                           LCD_CS_PIN);
 
     //
     // Delay for 1ms.
-    //
-    HAL_LCD_delay(1);
-
-    //
-    // Deassert the LCD reset signal.
-    //
-
-    GPIO_setOutputHighOnPin(LCD_RESET_PORT,
-                            LCD_RESET_PIN);
-
-    //
-    // Delay for 1ms while the LCD comes out of reset.
     //
     HAL_LCD_delay(1);
 }
 
 //*****************************************************************************
 //
-// Writes a command to the UC1701.  This function implements the basic SPI
+// Writes a command to the ILI9341.  This function implements the basic SPI
 // interface to the LCD display.
 //
 //*****************************************************************************
 void HAL_LCD_writeCommand(uint8_t command)
 {
     //
-    // Wait for any SPI transmission to complete before setting the LCD_SDC signal.
+    // Wait for any SPI transmission to complete before setting the LCD_DC signal.
     //
     while(SPI_isBusy(LCD_EUSCI_MODULE))
     {
@@ -180,9 +123,9 @@ void HAL_LCD_writeCommand(uint8_t command)
     }
 
     //
-    // Set the LCD_SDC signal low, indicating that following writes are commands.
+    // Set the LCD_DC signal low, indicating that following writes are commands.
     //
-    GPIO_setOutputLowOnPin(LCD_SDC_PORT, LCD_SDC_PIN);
+    GPIO_setOutputLowOnPin(LCD_DC_PORT, LCD_DC_PIN);
 
     //
     // Transmit the command.
@@ -200,12 +143,12 @@ void HAL_LCD_writeCommand(uint8_t command)
     //
     // Set the LCD_SDC signal high, indicating that following writes are data.
     //
-    GPIO_setOutputHighOnPin(LCD_SDC_PORT,LCD_SDC_PIN);
+    GPIO_setOutputHighOnPin(LCD_DC_PORT,LCD_DC_PIN);
 }
 
 //*****************************************************************************
 //
-// Writes a data word to the UC1701.  This function implements the basic SPI
+// Writes a data word to the ILI9341.  This function implements the basic SPI
 // interface to the LCD display.
 //
 //*****************************************************************************
@@ -264,14 +207,14 @@ void HAL_LCD_writeData(uint16_t data)
 
 void HAL_LCD_selectLCD(){
     //
-    // Wait for any SPI transmission to complete before setting the LCD_SCS signal.
+    // Wait for any SPI transmission to complete before setting the LCD_CS signal.
     //
     while(SPI_isBusy(LCD_EUSCI_MODULE))
     {
         ;
     }
 
-    GPIO_setOutputLowOnPin(LCD_SCS_PORT, LCD_SCS_PIN);
+    GPIO_setOutputLowOnPin(LCD_CS_PORT, LCD_CS_PIN);
 }
 
 //*****************************************************************************
@@ -293,7 +236,7 @@ void HAL_LCD_deselectLCD(){
         ;
     }
 
-    GPIO_setOutputHighOnPin(LCD_SCS_PORT, LCD_SCS_PIN);
+    GPIO_setOutputHighOnPin(LCD_CS_PORT, LCD_CS_PIN);
 }
 
 //*****************************************************************************

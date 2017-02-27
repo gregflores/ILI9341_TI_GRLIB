@@ -13,4 +13,6 @@
 	<templateProperties value="id=MSP-EXP432P401R_GrLib_Example.projectspec.MSP-EXP432P401R_GrLib_Example,"/>
 	<origin value="C:\ti\tirex-content\msp\msp432ware__3.50.00.02\grlib\examples\MSP-EXP432P401R_GrlibExample\CCS\MSP-EXP432P401R_GrLib_Example.projectspec"/>
 	<filesToOpen value="main.c,"/>
+	<connection value="common/targetdb/connections/TIXDS110_Connection.xml"/>
+	<isTargetManual value="false"/>
 </projectOptions>

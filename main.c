@@ -70,8 +70,8 @@ void main(void)
     __enable_interrupt();
 
     // LCD setup using Graphics Library API calls
-    Kitronix320x240x16_SSD2119Init();
-    Graphics_initContext(&g_sContext, &g_sKitronix320x240x16_SSD2119);
+    Adafruit320x240_ILI9341Init();
+    Graphics_initContext(&g_sContext, &g_sAdafruit320x240_ILI9341);
     Graphics_setBackgroundColor(&g_sContext, GRAPHICS_COLOR_BLACK);
     Graphics_setFont(&g_sContext, &g_sFontCmss20b);
     Graphics_clearDisplay(&g_sContext);

@@ -1,63 +1,3 @@
-/* --COPYRIGHT--,BSD
- * Copyright (c) 2016, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * --/COPYRIGHT--*/
-//*****************************************************************************
-//
-// kitronix320x240x16_ssd2119_16bit.c - Display driver for the Kitronix
-//                                     K350QVG-V1-F TFT display with an SSD2119
-//                                     controller.
-//
-// Copyright (c) 2008-2011 Texas Instruments Incorporated.  All rights reserved.
-// Software License Agreement
-//
-// Texas Instruments (TI) is supplying this software for use solely and
-// exclusively on TI's microcontroller products. The software is owned by
-// TI and/or its suppliers, and is protected under applicable copyright
-// laws. You may not combine this software with "viral" open-source
-// software in order to form a larger program.
-//
-// THIS SOFTWARE IS PROVIDED "AS IS" AND WITH ALL FAULTS.
-// NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT
-// NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. TI SHALL NOT, UNDER ANY
-// CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
-// DAMAGES, FOR ANY REASON WHATSOEVER.
-//
-//*****************************************************************************
-//
-//! \addtogroup display_api
-//! @{
-//
-//*****************************************************************************
-
 #include <LcdDriver/adafruit320x240_ILI9341_spi.h>
 #include <LcdDriver/HAL_MSP432P401R_adafruit320x240_ILI9341_SPI.h>
 #include <msp432.h>
@@ -75,7 +15,8 @@
 //
 //*****************************************************************************
 void
-Kitronix320x240x16_SSD2119Init(void)
+Adafruit320x240_ILI9341Init(void)
+
 {
     uint32_t ulCount;
     volatile uint32_t i;
@@ -233,7 +174,7 @@ Kitronix320x240x16_SSD2119Init(void)
 //
 // \return None
 
-void Kitronix320x240x16_SSD2119_setCursorLtoR(uint16_t X,
+void Adafruit320x240_ILI9341_setCursorLtoR(uint16_t X,
                                               uint16_t Y)
 {
     HAL_LCD_writeCommand(SSD2119_ENTRY_MODE_REG);
@@ -261,7 +202,7 @@ void Kitronix320x240x16_SSD2119_setCursorLtoR(uint16_t X,
 //
 // \return None
 
-void Kitronix320x240x16_SSD2119_setCursorTtoB(uint16_t X,
+void Adafruit320x240_ILI9341_setCursorTtoB(uint16_t X,
                                               uint16_t Y)
 {
     HAL_LCD_writeCommand(SSD2119_ENTRY_MODE_REG);
@@ -290,7 +231,7 @@ void Kitronix320x240x16_SSD2119_setCursorTtoB(uint16_t X,
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119PixelDraw(void *pvDisplayData,
+Adafruit320x240_ILI9341PixelDraw(void *pvDisplayData,
                                     int16_t X,
                                     int16_t Y,
                                     uint16_t Value)
@@ -350,7 +291,7 @@ Kitronix320x240x16_SSD2119PixelDraw(void *pvDisplayData,
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119PixelDrawMultiple(void *pvDisplayData,
+Adafruit320x240_ILI9341PixelDrawMultiple(void *pvDisplayData,
                                             int16_t X,
                                             int16_t Y,
                                             int16_t X0,
@@ -369,7 +310,7 @@ Kitronix320x240x16_SSD2119PixelDrawMultiple(void *pvDisplayData,
     //
     // Set the cursor increment to left to right, followed by top to bottom.
     //
-    Kitronix320x240x16_SSD2119_setCursorLtoR(X, Y);
+    Adafruit320x240_ILI9341_setCursorLtoR(X, Y);
 
     //
     // Determine how to interpret the pixel data based on the number of bits
@@ -516,7 +457,7 @@ Kitronix320x240x16_SSD2119PixelDrawMultiple(void *pvDisplayData,
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119LineDrawH(void *pvDisplayData,
+Adafruit320x240_ILI9341LineDrawH(void *pvDisplayData,
                                     int16_t X1,
                                     int16_t X2,
                                     int16_t Y,
@@ -530,7 +471,7 @@ Kitronix320x240x16_SSD2119LineDrawH(void *pvDisplayData,
     //
     // Set the cursor increment to left to right, followed by top to bottom.
     //
-    Kitronix320x240x16_SSD2119_setCursorLtoR(X1, Y);
+    Adafruit320x240_ILI9341_setCursorLtoR(X1, Y);
 
     //
     // Loop through the pixels of this horizontal line.
@@ -567,7 +508,7 @@ Kitronix320x240x16_SSD2119LineDrawH(void *pvDisplayData,
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119LineDrawV(void *pvDisplayData,
+Adafruit320x240_ILI9341LineDrawV(void *pvDisplayData,
                                     int16_t X,
                                     int16_t Y1,
                                     int16_t Y2,
@@ -581,7 +522,7 @@ Kitronix320x240x16_SSD2119LineDrawV(void *pvDisplayData,
     //
     // Set the cursor increment top to bottom, followed by left to right
     //
-    Kitronix320x240x16_SSD2119_setCursorTtoB(X, Y1);
+    Adafruit320x240_ILI9341_setCursorTtoB(X, Y1);
 
     //
     // Loop through the pixels of this vertical line.
@@ -616,7 +557,7 @@ Kitronix320x240x16_SSD2119LineDrawV(void *pvDisplayData,
 //
 //*****************************************************************************
 void
-Kitronix320x240x16_SSD2119LineDraw(void *pvDisplayData,
+Adafruit320x240_ILI9341LineDraw(void *pvDisplayData,
                                    int16_t lX1,
                                    int16_t lY1,
                                    int16_t lX2,
@@ -798,7 +739,7 @@ Kitronix320x240x16_SSD2119LineDraw(void *pvDisplayData,
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119RectFill(void *pvDisplayData,
+Adafruit320x240_ILI9341RectFill(void *pvDisplayData,
                                    const Graphics_Rectangle *pRect,
                                    uint16_t ulValue)
 {
@@ -812,7 +753,7 @@ Kitronix320x240x16_SSD2119RectFill(void *pvDisplayData,
     {
         for(; y0 <= y1; y0++)
         {
-            Kitronix320x240x16_SSD2119LineDrawH(pvDisplayData, x0, x1, y0,
+            Adafruit320x240_ILI9341LineDrawH(pvDisplayData, x0, x1, y0,
                                                 ulValue);
         }
     }
@@ -820,7 +761,7 @@ Kitronix320x240x16_SSD2119RectFill(void *pvDisplayData,
     {
         for(; x0 <= x1; x0++)
         {
-            Kitronix320x240x16_SSD2119LineDrawV(pvDisplayData, x0, y0, y1,
+            Adafruit320x240_ILI9341LineDrawV(pvDisplayData, x0, y0, y1,
                                                 ulValue);
         }
     }
@@ -844,7 +785,7 @@ Kitronix320x240x16_SSD2119RectFill(void *pvDisplayData,
 //
 //*****************************************************************************
 static uint32_t
-Kitronix320x240x16_SSD2119ColorTranslate(void *pvDisplayData,
+Adafruit320x240_ILI9341ColorTranslate(void *pvDisplayData,
                                          uint32_t ulValue)
 {
     //
@@ -871,7 +812,7 @@ Kitronix320x240x16_SSD2119ColorTranslate(void *pvDisplayData,
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119Flush(void *pvDisplayData)
+Adafruit320x240_ILI9341Flush(void *pvDisplayData)
 {
     //
     // There is nothing to be done.
@@ -892,14 +833,14 @@ Kitronix320x240x16_SSD2119Flush(void *pvDisplayData)
 //
 //*****************************************************************************
 static void
-Kitronix320x240x16_SSD2119ClearScreen(void *pvDisplayData,
+Adafruit320x240_ILI9341ClearScreen(void *pvDisplayData,
                                       uint16_t ulValue)
 {
     uint16_t y0;
 
     for(y0 = 0; y0 < LCD_VERTICAL_MAX; y0++)
     {
-        Kitronix320x240x16_SSD2119LineDrawH(pvDisplayData, 0,
+    	Adafruit320x240_ILI9341LineDrawH(pvDisplayData, 0,
                                             LCD_HORIZONTAL_MAX - 1, y0,
                                             ulValue);
     }
@@ -911,7 +852,7 @@ Kitronix320x240x16_SSD2119ClearScreen(void *pvDisplayData,
 //! K350QVG-V1-F TFT panel with an SSD2119 controller.
 //
 //*****************************************************************************
-const Graphics_Display g_sKitronix320x240x16_SSD2119 =
+const Graphics_Display g_sAdafruit320x240_ILI9341 =
 {
     sizeof(tDisplay),
     0,
@@ -922,14 +863,14 @@ const Graphics_Display g_sKitronix320x240x16_SSD2119 =
     320,
     240,
 #endif
-    Kitronix320x240x16_SSD2119PixelDraw,
-    Kitronix320x240x16_SSD2119PixelDrawMultiple,
-    Kitronix320x240x16_SSD2119LineDrawH,
-    Kitronix320x240x16_SSD2119LineDrawV,
-    Kitronix320x240x16_SSD2119RectFill,
-    Kitronix320x240x16_SSD2119ColorTranslate,
-    Kitronix320x240x16_SSD2119Flush,
-    Kitronix320x240x16_SSD2119ClearScreen
+    Adafruit320x240_ILI9341PixelDraw,
+    Adafruit320x240_ILI9341PixelDrawMultiple,
+    Adafruit320x240_ILI9341LineDrawH,
+    Adafruit320x240_ILI9341LineDrawV,
+    Adafruit320x240_ILI9341RectFill,
+    Adafruit320x240_ILI9341ColorTranslate,
+    Adafruit320x240_ILI9341Flush,
+    Adafruit320x240_ILI9341ClearScreen
 };
 
 //*****************************************************************************
